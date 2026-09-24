@@ -16,7 +16,7 @@ A test here is finished when it asserts the API's **real** behavior (observed, n
 3. **Probe before asserting** anything the spec leaves open: status codes, error tags, edge cases, and whether the free plan supports the feature (see Probing).
 4. **Write the spec** in the style of the example below. Add any missing client method to `src/clients/<Resource>Client.ts` using `postJson`, `getJson` or `listAll`.
 5. **Verify:** `npm run lint`, `npm run typecheck`, `npm run format:check`, `npx playwright test --grep @TC-XXX`. Run the test 3 times if it depends on dates or lists, then check that no `autotest-` data is left over. Include archived projects in that check.
-6. **Open the PR** from `.github/pull_request_template.md`. List every probed behavior under Assumptions.
+6. **Hand off for the PR.** If you are the `api-test-writer` agent, stop at a local commit and put the probed behavior in your report. Otherwise, open the PR from `.github/pull_request_template.md`. In both cases, list every probed behavior under Assumptions.
 
 ## Example
 
