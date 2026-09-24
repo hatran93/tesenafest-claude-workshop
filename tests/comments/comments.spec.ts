@@ -7,9 +7,7 @@ test(
   async ({ api, testData }) => {
     const content = uniqueName('comment');
 
-    const task = await test.step('Create a task to comment on', async () => {
-      return testData.createTask();
-    });
+    const task = await test.step('Create a task to comment on', () => testData.createTask());
 
     const createdComment = await test.step('Add a comment with unique text', async () => {
       const comment = await testData.createComment({ task_id: task.id }, { content });
