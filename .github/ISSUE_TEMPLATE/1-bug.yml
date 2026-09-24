@@ -1,0 +1,75 @@
+name: Bug
+description: A test, client, fixture or pipeline does something wrong, or the API breaks its spec.
+title: '[Bug] '
+labels: ['type: bug', 'status: needs-triage']
+body:
+  - type: markdown
+    attributes:
+      value: Never paste the API token, an `Authorization` header or an unredacted trace.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: 'P0: blocks CI or main. P1: fix this sprint. P2: normal. P3: nice to have.'
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+      default: 2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Projects
+        - Tasks
+        - Labels
+        - Comments
+        - E2E
+        - Negative
+        - CI
+        - Framework
+    validations:
+      required: true
+  - type: input
+    id: test-id
+    attributes:
+      label: Affected test case
+      placeholder: TC-012
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include the error message and a link to the failed run.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Point to the OpenAPI spec where it applies.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. npx playwright test --grep @TC-012
+        2. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: cause
+    attributes:
+      label: Where is the problem?
+      options:
+        - Test code or framework
+        - Todoist API (differs from the spec)
+        - CI pipeline
+        - Not sure yet
+    validations:
+      required: true

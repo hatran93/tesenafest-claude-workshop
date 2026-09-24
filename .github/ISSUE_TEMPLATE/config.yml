@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Todoist API documentation
+    url: https://developer.todoist.com/api/v1/
+    about: Expected API behavior. The OpenAPI spec is the reference for all tests.
