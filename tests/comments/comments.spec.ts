@@ -17,7 +17,7 @@ test(
       return comment;
     });
 
-    await test.step("List the task's comments", async () => {
+    await test.step("List the task's comments and check the text", async () => {
       const comments = await api.comments.list({ task_id: task.id });
 
       expect(comments).toHaveLength(1);
