@@ -21,6 +21,8 @@ test(
       const comments = await api.comments.list({ task_id: task.id });
 
       expect(comments).toHaveLength(1);
+      expect(comments).toHaveLength(1);
+      expect(comments[0]).toMatchSchema(Schema.comment);
       expect(comments[0]).toMatchObject({ id: createdComment.id, content });
       expect(comments[0]).toMatchSchema(Schema.comment);
       expect(comments[0]).toMatchObject({ id: createdComment.id, content });
