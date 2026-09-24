@@ -1,0 +1,59 @@
+name: Flaky test
+description: A test that passes only on retry or fails now and then.
+title: '[Flaky] TC-'
+labels: ['type: flaky', 'status: needs-triage']
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: 'P0: blocks CI or main. P1: fix this sprint. P2: normal. P3: nice to have.'
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+      default: 2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Projects
+        - Tasks
+        - Labels
+        - Comments
+        - E2E
+        - Negative
+        - CI
+        - Framework
+    validations:
+      required: true
+  - type: input
+    id: test-id
+    attributes:
+      label: Test ID
+      placeholder: TC-009
+    validations:
+      required: true
+  - type: textarea
+    id: runs
+    attributes:
+      label: Failed runs
+      description: Links to the runs or the flaky report comment, and how often it fails.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error message
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: suspected-cause
+    attributes:
+      label: Suspected cause
+      description: For example timing, shared data, the timezone or midnight, or API rate limits.

@@ -1,0 +1,56 @@
+name: Issue labels
+
+# Turns the Priority and Area answers of an issue form into `priority:` and `area:` labels.
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply priority and area labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          # The body is user input: it is read from the environment and only matched against
+          # fixed values, never run or interpolated into the script.
+          BODY: ${{ github.event.issue.body }}
+        run: |
+          answer() {
+            printf '%s\n' "$BODY" | tr -d '\r' |
+              awk -v heading="### $1" '$0 == heading { found = 1; next } found && NF { print; exit }'
+          }
+
+          case "$(answer Priority)" in
+            "P0 - Critical") priority="priority: P0" ;;
+            "P1 - High") priority="priority: P1" ;;
+            "P2 - Medium") priority="priority: P2" ;;
+            "P3 - Low") priority="priority: P3" ;;
+            *) priority="" ;;
+          esac
+
+          case "$(answer Area)" in
+            Projects | Tasks | Labels | Comments | E2E | Negative | CI | Framework)
+              area="area: $(answer Area | tr '[:upper:]' '[:lower:]')" ;;
+            *) area="" ;;
+          esac
+
+          # On edit, replace the old priority and area labels with the new answers.
+          current=$(gh issue view "$NUMBER" --json labels --jq '.labels[].name')
+          while IFS= read -r label; do
+            case "$label" in
+              "priority: "* | "area: "*)
+                if [ "$label" != "$priority" ] && [ "$label" != "$area" ]; then
+                  gh issue edit "$NUMBER" --remove-label "$label"
+                fi ;;
+            esac
+          done <<< "$current"
+
+          for label in "$priority" "$area"; do
+            if [ -n "$label" ]; then gh issue edit "$NUMBER" --add-label "$label"; fi
+          done

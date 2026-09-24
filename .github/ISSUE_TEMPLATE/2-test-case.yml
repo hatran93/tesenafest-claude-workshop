@@ -1,0 +1,70 @@
+name: Test case
+description: Automate a new test case or change an existing one.
+title: '[Test] TC-'
+labels: ['type: test-case', 'status: needs-triage']
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: 'P0: blocks CI or main. P1: fix this sprint. P2: normal. P3: nice to have.'
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+      default: 2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Projects
+        - Tasks
+        - Labels
+        - Comments
+        - E2E
+        - Negative
+        - CI
+        - Framework
+    validations:
+      required: true
+  - type: input
+    id: test-id
+    attributes:
+      label: Test case ID and name
+      placeholder: TC-016 A task moved to another project keeps its comments
+    validations:
+      required: true
+  - type: dropdown
+    id: suite
+    attributes:
+      label: Suite tag
+      options:
+        - '@smoke'
+        - '@regression'
+        - '@e2e'
+        - '@negative'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps and expected results
+      description: One behavior per test. List each input separately if the case covers several (TC-015a, TC-015b).
+    validations:
+      required: true
+  - type: textarea
+    id: open-questions
+    attributes:
+      label: Unclear expected behavior
+      description: Anything the spec does not settle. Call the API first and record what it does in the PR.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before starting
+      options:
+        - label: The feature is on the free Todoist plan (otherwise the test is marked `test.fixme()` with the reason)
+        - label: The test case is in scope in `brief.md` (no sections)

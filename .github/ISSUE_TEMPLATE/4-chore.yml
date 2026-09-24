@@ -1,0 +1,44 @@
+name: Chore
+description: Tooling, CI, dependencies, docs or refactoring with no change in test behavior.
+title: '[Chore] '
+labels: ['type: chore', 'status: needs-triage']
+body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: 'P0: blocks CI or main. P1: fix this sprint. P2: normal. P3: nice to have.'
+      options:
+        - P0 - Critical
+        - P1 - High
+        - P2 - Medium
+        - P3 - Low
+      default: 2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Projects
+        - Tasks
+        - Labels
+        - Comments
+        - E2E
+        - Negative
+        - CI
+        - Framework
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What and why
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      placeholder: '- [ ] ...'
