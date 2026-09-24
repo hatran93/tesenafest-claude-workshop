@@ -14,6 +14,7 @@ test(
       testData.createTask({ due_date: explicitDate }));
 
     // If midnight passed in the account's timezone meanwhile, "tomorrow" meant two different days.
+    // eslint-disable-next-line playwright/no-skipped-test -- conditional skip, not a disabled test
     test.skip(
       tomorrowIn(accountTimezone) !== explicitDate,
       'Midnight passed in the account timezone during the test',
