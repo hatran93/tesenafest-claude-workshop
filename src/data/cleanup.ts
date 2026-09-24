@@ -21,14 +21,18 @@ export function isStale(name: string, now: Date = new Date()): boolean {
 }
 
 /**
- * Deletes stale `autotest-` projects (with their tasks and comments), labels and Inbox tasks.
+ * Deletes stale `autotest-` projects (active and archived, with their tasks and comments), labels
+ * and Inbox tasks.
  * Keeps the free plan limits, for example the number of active projects, from blocking runs.
  */
 export async function deleteStaleTestData(
   api: TodoistApi,
   now: Date = new Date(),
 ): Promise<CleanupSummary> {
-  const projects = (await api.projects.list()).filter((project) => isStale(project.name, now));
+  // Archived projects are not in the active list, so they are listed separately.
+  const projects = [...(await api.projects.list()), ...(await api.projects.listArchived())].filter(
+    (project) => isStale(project.name, now),
+  );
   for (const project of projects) await ignoreNotFound(api.projects.delete(project.id));
 
   const labels = (await api.labels.list()).filter((label) => isStale(label.name, now));
