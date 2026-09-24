@@ -11,3 +11,6 @@ docs/
 
 # Pinned OpenAPI snapshot, written by scripts/update-openapi.mts
 src/schemas/openapi.json
+
+# Worktrees of Claude Code agents, each a full copy of the repo
+.claude/worktrees/
