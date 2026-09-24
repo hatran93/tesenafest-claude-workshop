@@ -23,4 +23,21 @@ export class ProjectsClient extends BaseClient {
   async list(): Promise<Project[]> {
     return this.listAll<Project>('projects');
   }
+
+  /**
+   * Archives the project. Its tasks are kept.
+   * The response body still shows `is_archived: false`; load the project to see the new state.
+   */
+  async archive(id: string): Promise<Project> {
+    return this.postJson<Project>(`projects/${id}/archive`);
+  }
+
+  async unarchive(id: string): Promise<Project> {
+    return this.postJson<Project>(`projects/${id}/unarchive`);
+  }
+
+  /** All archived projects, across all pages. */
+  async listArchived(): Promise<Project[]> {
+    return this.listAll<Project>('projects/archived');
+  }
 }
