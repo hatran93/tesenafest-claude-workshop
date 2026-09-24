@@ -5,14 +5,19 @@ test(
   'TC-009 A due date entered in words lands on the same day as the same date entered explicitly',
   { tag: ['@TC-009', '@regression'] },
   async ({ api, testData, accountTimezone }) => {
+    const explicitDate = tomorrowIn(accountTimezone);
+
     const inWords = await test.step('Create a task due "tomorrow"', () =>
       testData.createTask({ due_string: 'tomorrow', due_lang: 'en' }));
 
-    // Read after creating the first task, so both land on the same side of midnight.
-    const explicitDate = tomorrowIn(accountTimezone);
-
     const explicit = await test.step(`Create a task due on ${explicitDate}`, () =>
       testData.createTask({ due_date: explicitDate }));
+
+    // If midnight passed in the account's timezone meanwhile, "tomorrow" meant two different days.
+    test.skip(
+      tomorrowIn(accountTimezone) !== explicitDate,
+      'Midnight passed in the account timezone during the test',
+    );
 
     await test.step('Load both tasks and check they are due on the same day', async () => {
       const [wordsTask, explicitTask] = await Promise.all([
